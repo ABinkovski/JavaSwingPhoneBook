@@ -20,13 +20,13 @@ public class AuthService {
     }
 
     private void validateUserName(final String username) throws AuthUserException {
-        if(StringUtils.isBlank(username)) {
+        if (StringUtils.isBlank(username)) {
             throw new AuthUserException(AUTH_ERROR_MESSAGE);
         }
     }
 
     private void validatePassword(final char[] password) throws AuthUserException {
-        if(!validPassword.contains(new String(password))) {
+        if (!validPassword.contains(new String(password))) {
             throw new AuthUserException(AUTH_ERROR_MESSAGE);
         }
     }

@@ -5,8 +5,6 @@ import com.edu.pb.domain.model.exception.AuthUserException;
 import com.edu.pb.domain.service.AuthService;
 import com.edu.pb.infrastructure.util.FormUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +23,7 @@ public class PasswordFrame extends JFrame {
 
     public PasswordFrame() throws HeadlessException {
         setTitle("Please authorize");
-        setPreferredSize(new Dimension(200,130));
+        setPreferredSize(new Dimension(200, 130));
 
         final JPanel panel = new JPanel();
         add(panel, BorderLayout.NORTH);
