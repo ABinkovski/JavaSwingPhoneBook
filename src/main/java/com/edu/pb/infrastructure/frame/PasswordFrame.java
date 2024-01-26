@@ -4,13 +4,19 @@ import com.edu.pb.domain.model.User;
 import com.edu.pb.domain.model.exception.AuthUserException;
 import com.edu.pb.domain.service.AuthService;
 import com.edu.pb.infrastructure.util.FormUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 
+@Slf4j
 public class PasswordFrame extends JFrame {
+
+    private static final Logger removeMe = LoggerFactory.getLogger(PasswordFrame.class);
 
     private static final String password = "123";
 
@@ -46,6 +52,8 @@ public class PasswordFrame extends JFrame {
             try {
                 authService.validateUser(getUserFromForm());
             } catch (final AuthUserException e) {
+                log.error(e.getMessage(), e);
+                removeMe.error(e.getMessage(), e);
                 // TODO show popup
             }
         };
