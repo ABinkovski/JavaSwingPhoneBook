@@ -10,6 +10,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private static final String AUTH_ERROR_MESSAGE = "User name or password is wrong";
+
     private final Set<String> validPassword;
 
     public void validateUser(final User user) throws AuthUserException {
@@ -19,13 +21,13 @@ public class AuthService {
 
     private void validateUserName(final String username) throws AuthUserException {
         if(StringUtils.isBlank(username)) {
-            throw new AuthUserException();
+            throw new AuthUserException(AUTH_ERROR_MESSAGE);
         }
     }
 
     private void validatePassword(final char[] password) throws AuthUserException {
         if(!validPassword.contains(new String(password))) {
-            throw new AuthUserException();
+            throw new AuthUserException(AUTH_ERROR_MESSAGE);
         }
     }
 
