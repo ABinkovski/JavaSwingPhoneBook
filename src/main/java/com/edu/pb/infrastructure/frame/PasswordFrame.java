@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Collections;
 
 @Slf4j
-public class PasswordFrame extends JFrame {
+public class PasswordFrame extends JDialog {
 
     private static final String password = "123";
 
@@ -21,8 +21,8 @@ public class PasswordFrame extends JFrame {
     private final JTextField loginTF;
     private final JPasswordField passwordField;
 
-    public PasswordFrame() throws HeadlessException {
-        setTitle("Please authorize");
+    public PasswordFrame(final JFrame parent) throws HeadlessException {
+        super(parent, "Please authorize", true);
         setPreferredSize(new Dimension(200, 130));
 
         final JPanel panel = new JPanel();
@@ -47,6 +47,7 @@ public class PasswordFrame extends JFrame {
         return event -> {
             try {
                 authService.validateUser(getUserFromForm());
+                this.dispose();
             } catch (final AuthUserException e) {
                 log.error(e.getMessage(), e);
                 // TODO show popup
@@ -56,15 +57,20 @@ public class PasswordFrame extends JFrame {
 
     private User getUserFromForm() {
         return User.builder()
-                .userName(loginTF.getName())
+                .userName(loginTF.getText())
                 .password(passwordField.getPassword())
                 .build();
     }
 
     @Deprecated
-    public static void main(String[] args) {
-
-        FormUtils.launchFrame(new PasswordFrame());
+    public static void main(final String[] args) {
+        EventQueue.invokeLater(() -> {
+            final PasswordFrame passwordFrame = new PasswordFrame(null);
+            passwordFrame.pack();
+            FormUtils.centerTheFrame(passwordFrame);
+            passwordFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            passwordFrame.setVisible(true);
+        });
     }
 
 }
