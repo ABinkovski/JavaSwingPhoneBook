@@ -16,8 +16,6 @@ import java.util.Collections;
 @Slf4j
 public class PasswordFrame extends JFrame {
 
-    private static final Logger removeMe = LoggerFactory.getLogger(PasswordFrame.class);
-
     private static final String password = "123";
 
     private final AuthService authService = new AuthService(Collections.singleton(password));
@@ -53,7 +51,6 @@ public class PasswordFrame extends JFrame {
                 authService.validateUser(getUserFromForm());
             } catch (final AuthUserException e) {
                 log.error(e.getMessage(), e);
-                removeMe.error(e.getMessage(), e);
                 // TODO show popup
             }
         };
