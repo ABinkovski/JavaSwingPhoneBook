@@ -4,6 +4,7 @@ import com.edu.pb.domain.model.User;
 import com.edu.pb.domain.model.exception.AuthUserException;
 import com.edu.pb.domain.service.AuthService;
 import com.edu.pb.infrastructure.util.FormUtils;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -21,9 +22,14 @@ public class PasswordFrame extends JDialog {
     private final JTextField loginTF;
     private final JPasswordField passwordField;
 
+    @Getter
+    private boolean isAuthSucceeded;
+
     public PasswordFrame(final JFrame parent) throws HeadlessException {
         super(parent, "Please authorize", true);
         setPreferredSize(new Dimension(200, 130));
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         final JPanel panel = new JPanel();
         add(panel, BorderLayout.NORTH);
@@ -32,27 +38,30 @@ public class PasswordFrame extends JDialog {
         panel.add(new JLabel("Login:"));
         loginTF = (JTextField) panel.add(new JTextField());
 
-        panel.add(new JLabel("Password"));
+        panel.add(new JLabel("Password:"));
         passwordField = (JPasswordField) panel.add(new JPasswordField());
 
         final JPanel buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.SOUTH);
         final JButton authorize = (JButton) buttonPanel.add(new JButton("Authorize"));
         authorize.addActionListener(getAuthListener());
-
-
     }
 
     private ActionListener getAuthListener() {
         return event -> {
             try {
                 authService.validateUser(getUserFromForm());
+                isAuthSucceeded = true;
                 this.dispose();
             } catch (final AuthUserException e) {
                 log.error(e.getMessage(), e);
-                // TODO show popup
+                showInvalidAuthPopup(e.getMessage());
             }
         };
+    }
+
+    private void showInvalidAuthPopup(final String message) {
+        JOptionPane.showConfirmDialog(this, message, "Credential issues", JOptionPane.DEFAULT_OPTION);
     }
 
     private User getUserFromForm() {

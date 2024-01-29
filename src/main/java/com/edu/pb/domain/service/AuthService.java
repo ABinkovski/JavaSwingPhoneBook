@@ -2,6 +2,8 @@ package com.edu.pb.domain.service;
 
 import com.edu.pb.domain.model.User;
 import com.edu.pb.domain.model.exception.AuthUserException;
+import com.edu.pb.domain.model.exception.InvalidPasswordException;
+import com.edu.pb.domain.model.exception.InvalidUsernameException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,13 +23,15 @@ public class AuthService {
 
     private void validateUserName(final String username) throws AuthUserException {
         if (StringUtils.isBlank(username)) {
-            throw new AuthUserException(AUTH_ERROR_MESSAGE);
+//            throw new AuthUserException(AUTH_ERROR_MESSAGE); // generic exception should be used for production
+            throw new InvalidUsernameException();
         }
     }
 
     private void validatePassword(final char[] password) throws AuthUserException {
         if (!validPassword.contains(new String(password))) {
-            throw new AuthUserException(AUTH_ERROR_MESSAGE);
+//            throw new AuthUserException(AUTH_ERROR_MESSAGE); // generic exception should be used for production
+            throw new InvalidPasswordException(validPassword);
         }
     }
 

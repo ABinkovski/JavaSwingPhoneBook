@@ -9,6 +9,13 @@ public class MainForm extends JFrame {
         setPreferredSize(new Dimension(400, 200));
         setTitle("Phone Book - Java Swing Limited Functionality App");
 
+        final PasswordFrame passwordFrame = new PasswordFrame(this);
+        while (!passwordFrame.isAuthSucceeded()) {
+            passwordFrame.setVisible(true);
+        }
+    }
+
+    private void initMainForm() {
 
     }
 }
