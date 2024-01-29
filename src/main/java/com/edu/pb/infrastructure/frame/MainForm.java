@@ -18,12 +18,12 @@ public class MainForm extends JFrame {
     public MainForm() throws HeadlessException {
         log.debug("Preparing for Auth and init");
 
-        setPreferredSize(new Dimension(400, 200));
+        setPreferredSize(new Dimension(600, 200));
         setTitle("Phone Book - Java Swing Limited Functionality App");
 
         final PasswordFrame passwordFrame = PasswordFrame.initForm(this);
         while (!passwordFrame.isAuthSucceeded()) {
-//            showMessageForAuthRequired();
+            showMessageForAuthRequired();
             passwordFrame.setVisible(true);
         }
 
@@ -47,8 +47,15 @@ public class MainForm extends JFrame {
         initPhoneTable();
         initButtons();
 
+        updateView();
+    }
+
+    private void updateView() {
         revalidate();
-        pack();
+        repaint();
+
+//        phoneTablePanel.revalidate();
+//        phoneTablePanel.repaint();
     }
 
     private void initPhoneTable() {
@@ -57,6 +64,9 @@ public class MainForm extends JFrame {
 
         final JTable jTable = new JTable(phoneBookService.getTableModel());
         phoneTablePanel.add(new JScrollPane(jTable));
+
+//        jTable.revalidate();
+//        jTable.repaint();
     }
 
     private void initButtons() {
@@ -67,6 +77,7 @@ public class MainForm extends JFrame {
         final JButton addRecord = (JButton) buttonPanel.add(new JButton("Add record"));
         final JButton editRecord = (JButton) buttonPanel.add(new JButton("Edit record"));
         final JButton deleteRecord = (JButton) buttonPanel.add(new JButton("Delete Record"));
+
         addRecord.addActionListener(getAddRecordAction());
         editRecord.addActionListener(getEditRecordAction());
         deleteRecord.addActionListener(getDeleteRecordAction());
