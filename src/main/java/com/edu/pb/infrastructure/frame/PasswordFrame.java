@@ -10,14 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @Slf4j
 public class PasswordFrame extends JDialog {
 
-    private static final String password = "123";
-
-    private final AuthService authService = new AuthService(Collections.singleton(password));
+    private final AuthService authService = new AuthService(new HashSet<>(Arrays.asList("123", "111", "321")));
 
     private final JTextField loginTF;
     private final JPasswordField passwordField;
