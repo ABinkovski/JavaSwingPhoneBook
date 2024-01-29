@@ -53,20 +53,17 @@ public class MainForm extends JFrame {
     private void updateView() {
         revalidate();
         repaint();
-
-//        phoneTablePanel.revalidate();
-//        phoneTablePanel.repaint();
     }
 
     private void initPhoneTable() {
         phoneTablePanel = new JPanel();
+        phoneTablePanel.setLayout(new GridLayout(1, 1)); // Fixing JScrollPane out of the main JFrame
         add(phoneTablePanel, BorderLayout.CENTER);
 
         final JTable jTable = new JTable(phoneBookService.getTableModel());
-        phoneTablePanel.add(new JScrollPane(jTable));
+        final JScrollPane jScrollPane = new JScrollPane(jTable);
+        phoneTablePanel.add(jScrollPane);
 
-//        jTable.revalidate();
-//        jTable.repaint();
     }
 
     private void initButtons() {
