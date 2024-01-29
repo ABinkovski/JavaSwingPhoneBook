@@ -1,5 +1,7 @@
 # JavaSwingPhoneBook
 
+Latest release could be found <a href="https://github.com/ABinkovski/JavaSwingPhoneBook/releases">here</a>
+
 A simplest java swing phone book project with restricted functionality</br>
 ![Main App image](screenshots/01-MainApp.png)
 
