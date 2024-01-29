@@ -103,8 +103,13 @@ public class MainForm extends JFrame {
     private ActionListener getDeleteRecordAction() {
         return event -> {
             log.debug("Deleting record");
-            // TODO
-//            tableModel.removeRow();
+            final int selectedRow = table.getSelectedRow();
+            if (selectedRow > 0) {
+                tableModel.removeRow(selectedRow);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select row for removal",
+                        "Row Deletion", JOptionPane.WARNING_MESSAGE);
+            }
         };
     }
 
