@@ -24,11 +24,11 @@ public class FormUtils {
         if (nonNull(components)) {
             Arrays.stream(components)
                     .forEach(jFrame::add);
-
-            jFrame.pack();
-
-            centerTheFrame(jFrame);
         }
+
+        jFrame.pack();
+
+        centerTheFrame(jFrame);
     }
 
     public static void centerTheFrame(final Window frame) {

@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 @Slf4j
 public class MainForm extends JFrame {
 
-    private JOptionPane phoneTablePane;
-    private JOptionPane buttonPane;
+    private JPanel phoneTablePanel;
+    private JPanel buttonPanel;
 
     private final PhoneBookService phoneBookService = new PhoneBookService();
 
@@ -45,29 +45,28 @@ public class MainForm extends JFrame {
 
     private void initMainForm() {
         initPhoneTable();
-//        initButtons();
+        initButtons();
 
+        revalidate();
         pack();
     }
 
     private void initPhoneTable() {
-        phoneTablePane = new JOptionPane();
-//        add(phoneTablePane, SwingConstants.CENTER);
-        add(phoneTablePane, BorderLayout.CENTER);
+        phoneTablePanel = new JPanel();
+        add(phoneTablePanel, BorderLayout.CENTER);
 
         final JTable jTable = new JTable(phoneBookService.getTableModel());
-        phoneTablePane.add(new JScrollPane(jTable));
+        phoneTablePanel.add(new JScrollPane(jTable));
     }
 
     private void initButtons() {
-        buttonPane = new JOptionPane();
-//        add(buttonPane, SwingConstants.WEST);
-        add(buttonPane, BorderLayout.EAST);
+        buttonPanel = new JPanel();
+        add(buttonPanel, BorderLayout.EAST);
 
-        buttonPane.setLayout(new GridLayout(3, 1));
-        final JButton addRecord = (JButton) buttonPane.add(new JButton("Add record"));
-        final JButton editRecord = (JButton) buttonPane.add(new JButton("Edit record"));
-        final JButton deleteRecord = (JButton) buttonPane.add(new JButton("Delete Record"));
+        buttonPanel.setLayout(new GridLayout(3, 1));
+        final JButton addRecord = (JButton) buttonPanel.add(new JButton("Add record"));
+        final JButton editRecord = (JButton) buttonPanel.add(new JButton("Edit record"));
+        final JButton deleteRecord = (JButton) buttonPanel.add(new JButton("Delete Record"));
         addRecord.addActionListener(getAddRecordAction());
         editRecord.addActionListener(getEditRecordAction());
         deleteRecord.addActionListener(getDeleteRecordAction());
