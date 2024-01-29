@@ -102,10 +102,14 @@ public class MainForm extends JFrame {
 
     private ActionListener getDeleteRecordAction() {
         return event -> {
-            log.debug("Deleting record");
             final int selectedRow = table.getSelectedRow();
-            if (selectedRow > 0) {
-                tableModel.removeRow(selectedRow);
+            log.debug("Deleting record #" + selectedRow);
+            if (selectedRow >= 0) {
+                final int confirmDialog = JOptionPane.showConfirmDialog(this, "Are you sure want to delete entire entry: " + selectedRow,
+                        "Removal entry confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirmDialog == JOptionPane.YES_OPTION) {
+                    tableModel.removeRow(selectedRow);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Please select row for removal",
                         "Row Deletion", JOptionPane.WARNING_MESSAGE);
