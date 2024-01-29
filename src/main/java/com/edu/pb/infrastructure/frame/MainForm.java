@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Slf4j
@@ -102,13 +103,17 @@ public class MainForm extends JFrame {
 
     private ActionListener getDeleteRecordAction() {
         return event -> {
-            final int selectedRow = table.getSelectedRow();
-            log.debug("Deleting record #" + selectedRow);
-            if (selectedRow >= 0) {
-                final int confirmDialog = JOptionPane.showConfirmDialog(this, "Are you sure want to delete entire entry: " + selectedRow,
+            final int[] selectedRows = table.getSelectedRows();
+            final String selectedRowsStr = Arrays.toString(selectedRows);
+            log.debug("Deleting record # " + selectedRowsStr);
+            if (selectedRows.length > 0) {
+                final int confirmDialog = JOptionPane.showConfirmDialog(this,
+                        "Are you sure want to delete entire entry: " + selectedRowsStr,
                         "Removal entry confirmation", JOptionPane.YES_NO_OPTION);
                 if (confirmDialog == JOptionPane.YES_OPTION) {
-                    tableModel.removeRow(selectedRow);
+                    for (int indx = selectedRows.length - 1; indx >= 0; indx--) {
+                        tableModel.removeRow(selectedRows[indx]);
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Please select row for removal",
