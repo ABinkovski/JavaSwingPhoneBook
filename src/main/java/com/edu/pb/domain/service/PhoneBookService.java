@@ -3,13 +3,12 @@ package com.edu.pb.domain.service;
 import lombok.Getter;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.util.stream.IntStream;
 
 @Getter
 public class PhoneBookService {
 
-    private final TableModel tableModel;
+    private final DefaultTableModel tableModel;
 
     public PhoneBookService() {
         // TODO read/write data from file

@@ -4,7 +4,7 @@ import com.edu.pb.domain.service.PhoneBookService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
@@ -18,7 +18,9 @@ public class MainForm extends JFrame {
 
     private final PhoneBookService phoneBookService = new PhoneBookService();
 
-    private TableModel tableModel;
+    private DefaultTableModel tableModel;
+
+    private JTable table;
 
     public MainForm() throws HeadlessException {
         log.debug("Preparing for Auth and init");
@@ -66,41 +68,42 @@ public class MainForm extends JFrame {
         add(phoneTablePanel, BorderLayout.CENTER);
 
         tableModel = phoneBookService.getTableModel();
-        final JTable jTable = new JTable(tableModel);
-        final JScrollPane jScrollPane = new JScrollPane(jTable);
+        table = new JTable(tableModel);
+        final JScrollPane jScrollPane = new JScrollPane(table);
         phoneTablePanel.add(jScrollPane);
 
-        jTable.addPropertyChangeListener(getPropertyChangeListener());
+        table.addPropertyChangeListener(getPropertyChangeListener());
     }
 
     private void initButtons() {
         buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.EAST);
 
-        buttonPanel.setLayout(new GridLayout(3, 1));
+        buttonPanel.setLayout(new GridLayout(2, 1));
         final JButton addRecord = (JButton) buttonPanel.add(new JButton("Add record"));
         final JButton editRecord = (JButton) buttonPanel.add(new JButton("Edit record"));
         final JButton deleteRecord = (JButton) buttonPanel.add(new JButton("Delete Record"));
 
         addRecord.addActionListener(getAddRecordAction());
-        editRecord.addActionListener(getEditRecordAction());
+//        editRecord.addActionListener(getEditRecordAction());
         deleteRecord.addActionListener(getDeleteRecordAction());
     }
 
     private ActionListener getAddRecordAction() {
         return event -> {
             log.debug("Adding new record");
-            // TODO
+            tableModel.addRow(new String[]{});
+            scrollTableToRow(tableModel.getRowCount() - 1);
         };
     }
 
 
-    private ActionListener getEditRecordAction() {
-        return event -> {
-            log.debug("Start editing");
-            // TODO
-        };
-    }
+//    private ActionListener getEditRecordAction() {
+//        return event -> {
+//            log.debug("Start editing");
+//            // TODO
+//        };
+//    }
 
 
     private ActionListener getDeleteRecordAction() {
@@ -110,6 +113,11 @@ public class MainForm extends JFrame {
         };
     }
 
+    private void scrollTableToRow(final int row) {
+        table.getSelectionModel().setSelectionInterval(row, row);
+        table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
+    }
+
     private PropertyChangeListener getPropertyChangeListener() {
         return event -> {
             final JTable source = (JTable) event.getSource();
@@ -117,8 +125,8 @@ public class MainForm extends JFrame {
             final int editingColumn = source.getEditingColumn();
             if (Objects.nonNull(event.getOldValue())) {
                 final DefaultCellEditor oldValue = (DefaultCellEditor) event.getOldValue();
-                log.info("Table value is changed to: \"{}\", location: [{},{}]", oldValue.getCellEditorValue(), editingRow, editingColumn);
-                log.info("Table model value: \"{}\"", tableModel.getValueAt(editingRow, editingColumn));
+                log.debug("Table value is changed to: \"{}\", location: [{},{}]", oldValue.getCellEditorValue(), editingRow, editingColumn);
+                log.debug("Table model value: \"{}\"", tableModel.getValueAt(editingRow, editingColumn));
             } else {
 //                log.info("Start table value editing location: [{},{}]", editingRow, editingColumn); // [-1,-1]
             }
