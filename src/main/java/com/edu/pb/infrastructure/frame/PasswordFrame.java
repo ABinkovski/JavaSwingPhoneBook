@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -42,17 +44,41 @@ public class PasswordFrame extends JDialog {
         add(buttonPanel, BorderLayout.SOUTH);
         final JButton authorize = (JButton) buttonPanel.add(new JButton("Authorize"));
         authorize.addActionListener(getAuthListener());
+
+        loginTF.addKeyListener(getKeyListener());
+        passwordField.addKeyListener(getKeyListener());
     }
 
     private ActionListener getAuthListener() {
-        return event -> {
-            try {
-                authService.validateUser(getUserFromForm());
-                isAuthSucceeded = true;
-                this.dispose();
-            } catch (final AuthUserException e) {
-                log.error(e.getMessage(), e);
-                showInvalidAuthPopup(e.getMessage());
+        return event -> authorizeUser();
+    }
+
+    private void authorizeUser() {
+        try {
+            authService.validateUser(getUserFromForm());
+            isAuthSucceeded = true;
+            this.dispose();
+        } catch (final AuthUserException e) {
+            log.error(e.getMessage(), e);
+            showInvalidAuthPopup(e.getMessage());
+        }
+    }
+
+    private KeyListener getKeyListener() {
+        return new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    authorizeUser();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
             }
         };
     }
