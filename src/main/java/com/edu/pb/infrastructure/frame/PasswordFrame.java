@@ -16,7 +16,7 @@ import java.util.HashSet;
 @Slf4j
 public class PasswordFrame extends JDialog {
 
-    private final AuthService authService = new AuthService(new HashSet<>(Arrays.asList("123", "111", "321")));
+    private final AuthService authService = new AuthService(new HashSet<>(Arrays.asList("123", "111", "321", "1")));
 
     private final JTextField loginTF;
     private final JPasswordField passwordField;
