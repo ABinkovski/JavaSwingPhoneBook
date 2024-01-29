@@ -29,8 +29,6 @@ public class PasswordFrame extends JDialog {
         super(parent, "Please authorize", true);
         setPreferredSize(new Dimension(200, 130));
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         final JPanel panel = new JPanel();
         add(panel, BorderLayout.NORTH);
         panel.setLayout(new GridLayout(2, 2));
@@ -71,14 +69,20 @@ public class PasswordFrame extends JDialog {
                 .build();
     }
 
+    public static PasswordFrame initForm(final JFrame parent) {
+        final PasswordFrame passwordFrame = new PasswordFrame(parent);
+        passwordFrame.pack();
+        FormUtils.centerTheFrame(passwordFrame);
+        passwordFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        passwordFrame.setVisible(true);
+
+        return passwordFrame;
+    }
+
     @Deprecated
     public static void main(final String[] args) {
         EventQueue.invokeLater(() -> {
-            final PasswordFrame passwordFrame = new PasswordFrame(null);
-            passwordFrame.pack();
-            FormUtils.centerTheFrame(passwordFrame);
-            passwordFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            passwordFrame.setVisible(true);
+            initForm(null);
         });
     }
 
