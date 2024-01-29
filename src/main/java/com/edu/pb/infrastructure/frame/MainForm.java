@@ -79,13 +79,16 @@ public class MainForm extends JFrame {
         buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.EAST);
 
-        buttonPanel.setLayout(new GridLayout(2, 1));
-        final JButton addRecord = (JButton) buttonPanel.add(new JButton("Add record"));
-        final JButton editRecord = (JButton) buttonPanel.add(new JButton("Edit record"));
-        final JButton deleteRecord = (JButton) buttonPanel.add(new JButton("Delete Record"));
+//        buttonPanel.setLayout(new GridLayout(2, 1));
+        buttonPanel.setLayout(new GridBagLayout());
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        final JButton addRecord = new JButton("Add record");
+        buttonPanel.add(addRecord, gridBagConstraints);
+        final JButton deleteRecord = new JButton("Delete Record");
+        buttonPanel.add(deleteRecord, gridBagConstraints);
 
         addRecord.addActionListener(getAddRecordAction());
-//        editRecord.addActionListener(getEditRecordAction());
         deleteRecord.addActionListener(getDeleteRecordAction());
     }
 
@@ -97,19 +100,11 @@ public class MainForm extends JFrame {
         };
     }
 
-
-//    private ActionListener getEditRecordAction() {
-//        return event -> {
-//            log.debug("Start editing");
-//            // TODO
-//        };
-//    }
-
-
     private ActionListener getDeleteRecordAction() {
         return event -> {
             log.debug("Deleting record");
             // TODO
+//            tableModel.removeRow();
         };
     }
 
